@@ -1,5 +1,6 @@
-﻿#pragma once
+#pragma once
 #include<iostream>
+#include<memory>
 #include<vector>
 #include"OpenGLInit.h"
 #include"Vertex.h"
@@ -28,6 +29,9 @@ public:
 		: vertices(vertices), indices(indices), textures(textures) {
 		setupMesh();
 	}
+	virtual ~Mesh();
+	Mesh(const Mesh&) = delete;
+	Mesh& operator=(const Mesh&) = delete;
 
 	void move(const glm::vec3 offset) {
 		transform = glm::translate(transform,offset);

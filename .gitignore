@@ -16,11 +16,3 @@
 /Project/Win32/
 
 # Keep Wavefront .obj models tracked. Build directories cover C++ object files.
-
-# Local demo
-/Project/LowPolyTank.h
-/Project/assets/models/tank/
-/Project/assets/models/characters/boxhead-zombie.obj
-/Project/assets/models/environment/boxhead-barrier.obj
-/Project/assets/textures/characters/boxhead-zombie.png
-/Project/test.cpp

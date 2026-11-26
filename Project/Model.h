@@ -14,6 +14,7 @@ public:
 
 	Model(std::vector<Mesh*> m) :meshes(m){}
 	Model(std::string sourceFileName) { loadModel(sourceFileName); }
+	virtual ~Model() = default;
 	virtual void draw();
 	virtual void update(float deltaTime) {}
 	void updateBuffer();

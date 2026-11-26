@@ -2,6 +2,12 @@
 #include"OpenGLShaderInit.h"
 #include<string>
 
+Mesh::~Mesh() {
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+    glDeleteVertexArrays(1, &VAO);
+}
+
 // 처음 매쉬 셋팅용
 void Mesh::setupMesh() {
     glGenVertexArrays(1, &VAO);
