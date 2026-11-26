@@ -60,7 +60,7 @@
     <ClCompile Include="LightManager.cpp">
       <Filter>소스 파일\Core</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -112,9 +112,6 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>헤더 파일\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="LowPolyTank.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -149,7 +149,7 @@ glfw3.lib
     </ClCompile>
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="ParsingObj.cpp" />
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -166,7 +166,6 @@ glfw3.lib
     <ClInclude Include="global.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightManager.h" />
-    <ClInclude Include="LowPolyTank.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="OpenGLInit.h" />
