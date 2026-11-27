@@ -126,6 +126,34 @@ public:
         transform[3] += glm::vec4(offset, 0.f);
     }
 
+    // 월드 공간의 목표 위치를 향하도록 포탑 회전
+    void aimAt(const glm::vec3& worldTarget) {
+        const glm::mat4 modelPose = transform * glm::translate(glm::mat4(1.f), -origin);
+        const glm::mat4 hullWorld = hull->getWorldTransform(modelPose);
+
+        // 목표 위치를 차체 기준 좌표로 변환
+        const glm::vec3 localTarget(glm::inverse(hullWorld) * glm::vec4(worldTarget, 1.f));
+
+        // 포탑에서 목표까지의 방향을 XZ 평면에서 계산
+        glm::vec3 direction = localTarget - glm::vec3(turret->transform[3]);
+        direction.y = 0.f;
+
+        // 목표가 포탑 위치와 거의 같으면 회전하지 않음
+        if (glm::dot(direction, direction) < 0.0001f) return;
+
+        // 탱크의 기본 전방은 -Z이며, 현재 각도와의 차이만큼 회전
+        const float targetYaw = glm::degrees(std::atan2(-direction.x, -direction.z));
+        rotateMiddle(targetYaw - turretYaw);
+
+        // 포탑에 붙은 조명의 월드 위치 갱신
+        syncTopLightPosition();
+    }
+
+    void rotateMiddle(float degrees) {
+        turretYaw += degrees;
+        updatePartTransforms();
+    }
+
     void setBodyYaw(float degrees) {
         if (bodyYaw == degrees) return;
 

@@ -29,6 +29,34 @@ void inputProcess(float deltaTime, LowPolyTank& tank) {
 	};
 }
 
+void aimTankAtMouse(LowPolyTank& tank) {
+	int windowWidth, windowHeight;
+	int framebufferWidth, framebufferHeight;
+	glfwGetWindowSize(window, &windowWidth, &windowHeight);
+	glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
+	if (windowWidth == 0 || windowHeight == 0 || framebufferWidth == 0 || framebufferHeight == 0) return;
+
+	double mouseX, mouseY;
+	glfwGetCursorPos(window, &mouseX, &mouseY);
+	float x = 2.f * static_cast<float>(mouseX) / windowWidth - 1.f;
+	float y = 1.f - 2.f * static_cast<float>(mouseY) / windowHeight;
+
+	// 화면 좌표를 카메라의 가까운 면과 먼 면에 있는 월드 좌표로 변환.
+	float aspect = static_cast<float>(framebufferWidth) / framebufferHeight;
+	glm::mat4 inverseViewProjection = glm::inverse(curCamera->getProjection(aspect) * curCamera->getView());
+	glm::vec4 nearPoint = inverseViewProjection * glm::vec4(x, y, -1.f, 1.f);
+	glm::vec4 farPoint = inverseViewProjection * glm::vec4(x, y, 1.f, 1.f);
+	nearPoint /= nearPoint.w;
+	farPoint /= farPoint.w;
+
+	// 마우스 방향의 직선과 바닥(y = 0)이 만나는 위치를 구한다.
+	glm::vec3 direction = glm::vec3(farPoint - nearPoint);
+	if (glm::abs(direction.y) < 1e-6f) return;
+	float distance = -nearPoint.y / direction.y;
+	if (distance < 0.f) return;
+	tank.aimAt(glm::vec3(nearPoint) + direction * distance);
+}
+
 void update(float deltaTime) {
 
 }
@@ -78,6 +106,7 @@ int main() {
 		inputProcess(deltaTime, *tank);
 		update(deltaTime);
 		tank->update(deltaTime);
+		aimTankAtMouse(*tank);
 		UpdateBuffer();
 		drawScene();
 		glfwSwapBuffers(window);
