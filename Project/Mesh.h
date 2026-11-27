@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include<iostream>
 #include<memory>
 #include<vector>
@@ -57,6 +57,8 @@ public:
 	//  render data
 	GLuint VAO, VBO, EBO;
 };
+
+using MeshOwner = std::unique_ptr<Mesh>;
 
 class PointLightMesh : public Mesh {
 public:
