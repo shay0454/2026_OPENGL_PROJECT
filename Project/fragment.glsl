@@ -14,6 +14,10 @@ struct Light {
 	vec3 position;
 	vec3 color;
 	float intensity;
+	int type;
+	vec3 direction;
+	float innerCutoff;
+	float outerCutoff;
 };
 
 uniform Material material;
@@ -25,7 +29,7 @@ uniform float opacity;
 
 uniform vec3 viewPos;
 
-const int MAX_LIGHTS = 8;
+const int MAX_LIGHTS = 16;
 uniform Light lights[MAX_LIGHTS];
 uniform int lightCount;
 
@@ -40,6 +44,7 @@ void main ()
 
 	vec3 lighting = vec3(0.01);
 	vec3 viewDir = normalize(viewPos - FragPos);
+
 	int count = clamp(lightCount, 0, MAX_LIGHTS);
 	for (int i = 0; i < count; ++i) {
     		vec3 toLight = lights[i].position - FragPos;
@@ -47,6 +52,11 @@ void main ()
     		vec3 lightDir = toLight / max(lightDistance, 0.0001);
 
     		float attenuation = 1.0 / (1.0 + 0.14 * lightDistance + 0.07 * lightDistance * lightDistance);
+		// 스포트라이트는 빛이 향하는 각도 안에서만 비춘다.
+		if (lights[i].type == 1) {
+			float spotCos = dot(-lightDir, normalize(lights[i].direction));
+			attenuation *= smoothstep(lights[i].outerCutoff, lights[i].innerCutoff, spotCos);
+		}
 
     	float diffuse = max(dot(normalVector, lightDir), 0.0);
 

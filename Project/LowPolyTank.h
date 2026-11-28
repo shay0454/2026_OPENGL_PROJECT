@@ -117,6 +117,12 @@ public:
     
     Light& getTopLight() { return topLight; }
 
+    glm::vec3 getTurretDirection() {
+        glm::mat4 modelPose = transform * glm::translate(glm::mat4(1.f), -origin);
+        glm::mat4 turretWorld = turret->getWorldTransform(modelPose);
+        return glm::normalize(glm::vec3(turretWorld * glm::vec4(0.f, 0.f, -1.f, 0.f)));
+    }
+
     glm::vec3 getTopLightPosition() {
         glm::mat4 modelPose = transform * glm::translate(glm::mat4(1.f), -origin);
         return glm::vec3(topLamp->getWorldTransform(modelPose)[3]);

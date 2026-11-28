@@ -82,6 +82,11 @@ int main() {
 	tank->syncTopLightPosition();
 	models.push_back(tank);
 	lightManger.add(tank->getTopLight());
+	Light tankSpotLight({ 0.f, 0.f, 0.f }, { 1.f, 0.9f, 0.76f }, 2.f);
+	tankSpotLight.type = LightType::Spot;
+	tankSpotLight.innerAngle = 15.f;
+	tankSpotLight.outerAngle = 22.f;
+	lightManger.add(tankSpotLight);
 	
 
 	InitBuffer();
@@ -107,6 +112,9 @@ int main() {
 		update(deltaTime);
 		tank->update(deltaTime);
 		aimTankAtMouse(*tank);
+		glm::vec3 turretDirection = tank->getTurretDirection();
+		tankSpotLight.position = tank->getTopLightPosition();
+		tankSpotLight.direction = glm::normalize(turretDirection + glm::vec3(0.f, -0.22f, 0.f));
 		UpdateBuffer();
 		drawScene();
 		glfwSwapBuffers(window);
@@ -114,6 +122,7 @@ int main() {
 	}
 
 	lightManger.remove(tank->getTopLight());
+	lightManger.remove(tankSpotLight);
 	models.clear();
 	delete tank;
 	meshes.clear();

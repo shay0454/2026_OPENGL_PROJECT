@@ -8,12 +8,12 @@
 class LightManager {
 public:
 	std::vector<Light*> lights;
-	int lightLimit = 8;
+	const int lightLimit = 16;
 
 public:
 	LightManager() {}
 	void add(Light& light) {
-		if (lights.size() >= 8) return;
+		if (lights.size() >= lightLimit) return;
 		lights.emplace_back(&light);
 	}
 

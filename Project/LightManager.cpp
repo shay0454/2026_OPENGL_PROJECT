@@ -9,6 +9,10 @@ void LightManager::uploadLights() {
 		glUniform3fv(glGetUniformLocation(shaderProgramID, (name + ".position").c_str()), 1, glm::value_ptr(lights[i]->position));
 		glUniform3fv(glGetUniformLocation(shaderProgramID, (name + ".color").c_str()), 1, glm::value_ptr(lights[i]->color));
 		glUniform1f(glGetUniformLocation(shaderProgramID, (name + ".intensity").c_str()), lights[i]->intensity);
+		glUniform1i(glGetUniformLocation(shaderProgramID, (name + ".type").c_str()), static_cast<int>(lights[i]->type));
+		glUniform3fv(glGetUniformLocation(shaderProgramID, (name + ".direction").c_str()), 1, glm::value_ptr(lights[i]->direction));
+		glUniform1f(glGetUniformLocation(shaderProgramID, (name + ".innerCutoff").c_str()), glm::cos(glm::radians(lights[i]->innerAngle)));
+		glUniform1f(glGetUniformLocation(shaderProgramID, (name + ".outerCutoff").c_str()), glm::cos(glm::radians(lights[i]->outerAngle)));
 
 	}
 }
